@@ -8,7 +8,7 @@ namespace Task_Tracker.Modules {
                 return (int) ReturnCodes.ERR_NOT_ENOUGH_ARGS;
             }
 
-            List<TTTask>? curTasks = JsonModule.ReadFile();
+            List<TTTask> curTasks = JsonModule.ReadFile();
             int newId = UtilityModule.GenerateTaskId(curTasks);
             var newTask = new TTTask {
                 Id = newId, 
@@ -18,7 +18,7 @@ namespace Task_Tracker.Modules {
                 UpdatedAt = DateTime.Now
             };
             
-            if (curTasks == null) {
+            if (curTasks.Count == 0) {
                 curTasks = [newTask];
             }
             else {

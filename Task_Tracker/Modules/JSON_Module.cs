@@ -10,14 +10,12 @@ namespace Task_Tracker.Modules {
             File.WriteAllText(FileName, jsonString, System.Text.Encoding.UTF8);
         }
 
-        public static List<TTTask>? ReadFile() {
-            if (!File.Exists(FileName))
-            {
+        public static List<TTTask> ReadFile() {
+            if (!File.Exists(FileName)) {
                 return [];
             }
-            
             string jsonString = File.ReadAllText(FileName);
-            return JsonSerializer.Deserialize<List<TTTask>>(jsonString);
+            return JsonSerializer.Deserialize<List<TTTask>>(jsonString)!;
         }
     }
 }

@@ -15,9 +15,14 @@ namespace Task_Tracker {
                 case "add":
                     int returnCode = CommandsModule.AddTask(arguments);
                     if (returnCode != (int) ReturnCodes.OK) {
-                        Console.WriteLine("Add task failed.");
+                        switch (returnCode) {
+                            case (int) ReturnCodes.ERR_NOT_ENOUGH_ARGS:
+                                Console.WriteLine("Please specify a task description.");
+                                break;
+                        }
                         return returnCode;
                     }
+                    Console.WriteLine("Added task successfully.");
                     break;
             }
             
