@@ -1,6 +1,7 @@
 namespace Task_Tracker.Enums {
     public enum ReturnCodes {
         OK = 0,
-        ERR_NOT_ENOUGH_ARGS = 1
+        ERR_NOT_ENOUGH_ARGS = 1,
+        NOT_FOUND = 2
     }
 }

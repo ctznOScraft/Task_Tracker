@@ -28,5 +28,30 @@ namespace Task_Tracker.Modules {
             
             return (int) ReturnCodes.OK;
         }
+
+        public static int DeleteTask(string[] data) {
+            if (data.Length < 1) {
+                return (int) ReturnCodes.ERR_NOT_ENOUGH_ARGS;
+            }
+            
+            int deleteId = Convert.ToInt32(data[0]);
+            List<TTTask> curTasks = JsonModule.ReadFile();
+            int[] curTasksIds = UtilityModule.GetTasksIds(curTasks);
+            bool found = false;
+
+            for (int i = 0; i < curTasksIds.Length; i++) {
+                if (curTasksIds[i] == deleteId) {
+                    curTasks.RemoveAt(i);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                return (int)ReturnCodes.NOT_FOUND;
+            }
+            JsonModule.WriteFile(curTasks);
+            
+            return (int) ReturnCodes.OK;
+        }
     }
 }
