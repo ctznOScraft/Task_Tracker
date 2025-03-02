@@ -6,7 +6,12 @@ namespace Task_Tracker.Modules {
         public static void WriteTask(TTTask task) {
             var options = new JsonSerializerOptions { WriteIndented = true };
             string jsonString = JsonSerializer.Serialize(task, options);
-            File.WriteAllText("Data.json", jsonString, System.Text.Encoding.UTF8);
+            try {
+                File.WriteAllText("Data.json", jsonString, System.Text.Encoding.UTF8);
+            }
+            catch (Exception ex) {
+                Console.WriteLine($"Error while writing data: {ex.Message}");
+            }
         }
     }
 }
