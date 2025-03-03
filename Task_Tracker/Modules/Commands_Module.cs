@@ -33,6 +33,9 @@ namespace Task_Tracker.Modules {
             if (data.Length < 1) {
                 return (int) ReturnCodes.ERR_NOT_ENOUGH_ARGS;
             }
+            if (!data[0].All(char.IsDigit)) {
+                return (int) ReturnCodes.INVALID_INPUT;
+            }
             
             int deleteId = Convert.ToInt32(data[0]);
             List<TTTask> curTasks = JsonModule.ReadFile();
@@ -47,7 +50,7 @@ namespace Task_Tracker.Modules {
                 }
             }
             if (!found) {
-                return (int)ReturnCodes.NOT_FOUND;
+                return (int) ReturnCodes.NOT_FOUND;
             }
             JsonModule.WriteFile(curTasks);
             
