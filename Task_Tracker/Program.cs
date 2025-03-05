@@ -58,11 +58,11 @@ namespace Task_Tracker {
                                 returnCode -= 1001;
                                 break;
                             case (int) ReturnCodes.ERR_INVALID_INPUT + 1002:
-                                Console.WriteLine("Please specify what do you want to update correctly.");
+                                Console.WriteLine("Please specify what do you want to update correctly (description/status).");
                                 returnCode -= 1002;
                                 break;
                             case (int) ReturnCodes.ERR_INVALID_INPUT + 1003:
-                                Console.WriteLine("Please specify a correct status (Todo, InProgress, Done");
+                                Console.WriteLine("Please specify a correct status (Todo, InProgress, Done).");
                                 returnCode -= 1003;
                                 break;
                             case (int) ReturnCodes.ERR_NOT_FOUND:
