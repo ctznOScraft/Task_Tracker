@@ -34,16 +34,44 @@ namespace Task_Tracker {
                             case (int) ReturnCodes.ERR_NOT_ENOUGH_ARGS:
                                 Console.WriteLine("Usage: Task_Tracker delete [id]");
                                 break;
-                            case (int) ReturnCodes.NOT_FOUND:
+                            case (int) ReturnCodes.ERR_NOT_FOUND:
                                 Console.WriteLine("Specified task not found.");
                                 break;
-                            case (int) ReturnCodes.INVALID_INPUT:
-                                Console.WriteLine("Please specify a task id.");
+                            case (int) ReturnCodes.ERR_INVALID_INPUT:
+                                Console.WriteLine("Please specify a correct task id.");
                                 break;
                         }
                         return returnCode;
                     }
                     Console.WriteLine("Deleted task successfully.");
+                    break;
+                
+                case "update":
+                    returnCode = CommandsModule.UpdateTask(arguments);
+                    if (returnCode != (int)ReturnCodes.OK) {
+                        switch (returnCode) {
+                            case (int) ReturnCodes.ERR_NOT_ENOUGH_ARGS:
+                                Console.WriteLine("Usage: Task_Tracker update [id] [description/status] [new description/status]");
+                                break;
+                            case (int) ReturnCodes.ERR_INVALID_INPUT + 1001:
+                                Console.WriteLine("Please specify a correct task id.");
+                                returnCode -= 1001;
+                                break;
+                            case (int) ReturnCodes.ERR_INVALID_INPUT + 1002:
+                                Console.WriteLine("Please specify what do you want to update correctly.");
+                                returnCode -= 1002;
+                                break;
+                            case (int) ReturnCodes.ERR_INVALID_INPUT + 1003:
+                                Console.WriteLine("Please specify a correct status (Todo, InProgress, Done");
+                                returnCode -= 1003;
+                                break;
+                            case (int) ReturnCodes.ERR_NOT_FOUND:
+                                Console.WriteLine("Specified task not found.");
+                                break;
+                        }
+                        return returnCode;
+                    }
+                    Console.WriteLine("Updated task successfully.");
                     break;
                 
                 default:

@@ -4,6 +4,7 @@ using Task_Tracker.Models;
 namespace Task_Tracker.Modules {
     public static class JsonModule {
         private const string FileName = "Data.json";
+        
         public static void WriteFile(List<TTTask> data) {
             var options = new JsonSerializerOptions { WriteIndented = true };
             string jsonString = JsonSerializer.Serialize(data, options);
