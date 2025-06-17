@@ -1,15 +1,19 @@
 ﻿using Task_Tracker.Enums;
-using Task_Tracker.Modules;
 using Task_Tracker.Exceptions;
+using Task_Tracker.Services;
 
 namespace Task_Tracker;
 
 internal static class Program {
-    private static int Main(string[] args) {
+    private static async Task<int> Main(string[] args) {
         if (args.Length < 1) {
             Console.WriteLine("Usage: Task_Tracker [command] [arguments]");
             return (int)ReturnCodes.ERR_NOT_ENOUGH_ARGS;
         }
+
+        var dataStorage = new JsonStorage();
+        var utilityService = new UtilityService();
+        var commandService = new CommandService(dataStorage, utilityService);
         
         string command = args[0];
         string[] arguments = args[1..];
@@ -17,17 +21,17 @@ internal static class Program {
         try {
             switch (command) {
                 case "add":
-                    CommandsModule.AddTask(arguments);
+                    await commandService.AddTask(arguments);
                     Console.WriteLine("Added task successfully.");
                     break;
                 
                 case "delete":
-                    CommandsModule.DeleteTask(arguments);
+                    await commandService.DeleteTask(arguments);
                     Console.WriteLine("Deleted task successfully.");
                     break;
                 
                 case "update":
-                    CommandsModule.UpdateTask(arguments);
+                    await commandService.UpdateTask(arguments);
                     Console.WriteLine("Updated task successfully.");
                     break;
                 

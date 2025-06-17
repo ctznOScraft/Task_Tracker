@@ -1,13 +1,13 @@
 using Task_Tracker.Models;
 
-namespace Task_Tracker.Modules;
+namespace Task_Tracker.Services;
 
-public static class UtilityModule {
-    private static int[] GetTasksIds(List<TTTask> tasks) {
+public class UtilityService {
+    private int[] GetTasksIds(List<TTTask> tasks) {
         return tasks.Select(x => x.Id).ToArray();
     }
     
-    public static int GenerateTaskId(List<TTTask> tasks) {
+    public int GenerateTaskId(List<TTTask> tasks) {
         if (tasks.Count == 0)
             return 0;
         int[] taskIds = GetTasksIds(tasks);
