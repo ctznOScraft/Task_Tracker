@@ -1,6 +1,7 @@
 ﻿using Task_Tracker.Enums;
 using Task_Tracker.Exceptions;
 using Task_Tracker.Services;
+using Task_Tracker.Models;
 
 namespace Task_Tracker;
 
@@ -11,9 +12,11 @@ internal static class Program {
             return (int)ReturnCodes.ERR_NOT_ENOUGH_ARGS;
         }
 
-        var dataStorage = new JsonStorage();
+        var configService = new ConfigService();
+        var dataStorage = new JsonStorage(configService.GetDbFileName());
+
         var utilityService = new UtilityService();
-        var commandService = new CommandService(dataStorage, utilityService);
+        var commandService = new CommandService(dataStorage, utilityService, configService);
         
         string command = args[0];
         string[] arguments = args[1..];
@@ -21,8 +24,8 @@ internal static class Program {
         try {
             switch (command) {
                 case "add":
-                    await commandService.AddTask(arguments);
-                    Console.WriteLine("Added task successfully.");
+                    TTTask addedTask = await commandService.AddTask(arguments);
+                    Console.WriteLine($"Added task successfully: [ID: {addedTask.Id}] \"{addedTask.Description}\"");
                     break;
                 
                 case "delete":
@@ -37,6 +40,11 @@ internal static class Program {
                 
                 case "list":
                     await commandService.ListTasks(arguments);
+                    break;
+                
+                case "config":
+                    commandService.Config(arguments);
+                    Console.WriteLine("Updated configuration successfully.");
                     break;
                 
                 default:

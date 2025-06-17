@@ -4,19 +4,17 @@ using Task_Tracker.Models;
 
 namespace Task_Tracker.Services;
 
-public class JsonStorage : IDataStorage {
-    private const string FileName = "Data.json";
-    
+public class JsonStorage(string dbFileName) : IDataStorage {
     public async Task WriteFileAsync(List<TTTask> data) {
         var options = new JsonSerializerOptions { WriteIndented = true };
         string jsonString = JsonSerializer.Serialize(data, options);
-        await File.WriteAllTextAsync(FileName, jsonString, System.Text.Encoding.UTF8);
+        await File.WriteAllTextAsync(dbFileName, jsonString, System.Text.Encoding.UTF8);
     }
 
     public async Task<List<TTTask>> ReadFileAsync() {
-        if (!File.Exists(FileName))
+        if (!File.Exists(dbFileName))
             return [];
-        string jsonString = await File.ReadAllTextAsync(FileName);
+        string jsonString = await File.ReadAllTextAsync(dbFileName);
         return JsonSerializer.Deserialize<List<TTTask>>(jsonString)!;
     }
 }

@@ -23,3 +23,9 @@ public class InvalidStatusValueException(string status) : TaskTrackerException(
 
 public class InvalidListOptionException(string option) : TaskTrackerException(
     $"Invalid list option: {option}. Use 'Todo', 'InProgress', or 'Done'.'", ReturnCodes.ERR_INVALID_LIST_OPTION);
+
+public class UnspecifiedFileNameException()
+    : TaskTrackerException("Please specify file name for DB.", ReturnCodes.ERR_UNSPECIFIED_FILENAME);
+
+public class InvalidConfigOptionException(string option) : TaskTrackerException(
+    $"Invalid config option: {option}. Use 'dbname' (maybe more soon).", ReturnCodes.ERR_INVALID_CONFIG_OPTION);

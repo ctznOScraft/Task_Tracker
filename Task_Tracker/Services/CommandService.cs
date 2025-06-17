@@ -5,8 +5,8 @@ using Task_Tracker.Models;
 
 namespace Task_Tracker.Services;
 
-public class CommandService(IDataStorage dataStorage, UtilityService utilityService) {
-    public async Task AddTask(string[] data) {
+public class CommandService(IDataStorage dataStorage, UtilityService utilityService, ConfigService configService) { 
+    public async Task<TTTask> AddTask(string[] data) {
         if (data.Length < 1)
             throw new NotEnoughArgumentsException("add");
 
@@ -22,6 +22,8 @@ public class CommandService(IDataStorage dataStorage, UtilityService utilityServ
     
         curTasks.Add(newTask);
         await dataStorage.WriteFileAsync(curTasks);
+        
+        return newTask;
     }
 
     public async Task DeleteTask(string[] data) {
@@ -74,6 +76,22 @@ public class CommandService(IDataStorage dataStorage, UtilityService utilityServ
         }
         else {
             utilityService.ShowTasks(curTasks);
+        }
+    }
+
+    public void Config(string[] data) {
+        if (data.Length < 1)
+            throw new NotEnoughArgumentsException("config");
+        
+        switch (data[0]) {
+            case "dbname":
+                if (data.Length < 2)
+                    throw new UnspecifiedFileNameException();
+                configService.SetDbFileName(data[1]);
+                break;
+            
+            default:
+                throw new InvalidConfigOptionException(data[0]);
         }
     }
 }
