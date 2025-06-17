@@ -5,7 +5,7 @@ namespace Task_Tracker.Services;
 
 public class ConfigService {
     private const string ConfigFileName = "config.json";
-    private AppConfig _config = new AppConfig();
+    private AppConfig _config = new();
 
     public ConfigService() {
         LoadConfig();

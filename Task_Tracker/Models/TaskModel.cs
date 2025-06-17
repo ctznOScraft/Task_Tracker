@@ -15,7 +15,7 @@ public class TTTask {
                 Id = Convert.ToInt32(value);
                 break;
             case "description":
-                Description = value?.ToString() ?? string.Empty;
+                Description = value.ToString() ?? string.Empty;
                 break;
             case "status":
                 Status = Enum.Parse<Status>(value.ToString()!);
