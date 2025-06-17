@@ -3,7 +3,7 @@ using Task_Tracker.Models;
 namespace Task_Tracker.Modules;
 
 public static class UtilityModule {
-    public static int[] GetTasksIds(List<TTTask> tasks) {
+    private static int[] GetTasksIds(List<TTTask> tasks) {
         return tasks.Select(x => x.Id).ToArray();
     }
     

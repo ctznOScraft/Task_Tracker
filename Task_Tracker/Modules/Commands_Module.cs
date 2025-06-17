@@ -1,13 +1,13 @@
 using Task_Tracker.Enums;
 using Task_Tracker.Models;
+using Task_Tracker.Exceptions;
 
 namespace Task_Tracker.Modules;
 
 public static class CommandsModule {
-    public static int AddTask(string[] data) {
-        if (data.Length < 1) {
-            return (int) ReturnCodes.ERR_NOT_ENOUGH_ARGS;
-        }
+    public static void AddTask(string[] data) {
+        if (data.Length < 1)
+            throw new NotEnoughArgumentsException("add");
 
         List<TTTask> curTasks = JsonModule.ReadFile();
         int newId = UtilityModule.GenerateTaskId(curTasks);
@@ -18,80 +18,47 @@ public static class CommandsModule {
             CreatedAt = DateTime.Now, 
             UpdatedAt = DateTime.Now
         };
-        
-        if (curTasks.Count == 0) {
-            curTasks = [newTask];
-        }
-        else {
-            curTasks.Add(newTask);
-        }
+    
+        curTasks.Add(newTask);
         JsonModule.WriteFile(curTasks);
-        
-        return (int) ReturnCodes.OK;
     }
 
-    public static int DeleteTask(string[] data) {
-        if (data.Length < 1) {
-            return (int) ReturnCodes.ERR_NOT_ENOUGH_ARGS;
-        }
-        if (!data[0].All(char.IsDigit)) {
-            return (int) ReturnCodes.ERR_INVALID_INPUT;
-        }
-        
+    public static void DeleteTask(string[] data) {
+        if (data.Length < 1)
+            throw new NotEnoughArgumentsException("delete");
+        if (!data[0].All(char.IsDigit))
+            throw new InvalidTaskIdException();
+    
         int deleteId = Convert.ToInt32(data[0]);
         List<TTTask> curTasks = JsonModule.ReadFile();
-        int[] curTasksIds = UtilityModule.GetTasksIds(curTasks);
-        bool found = false;
+        int index = curTasks.FindIndex(t => t.Id == deleteId);
+        if (index == -1)
+            throw new TaskNotFoundException(deleteId);
 
-        for (int i = 0; i < curTasksIds.Length; i++) {
-            if (curTasksIds[i] == deleteId) {
-                curTasks.RemoveAt(i);
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
-            return (int) ReturnCodes.ERR_NOT_FOUND;
-        }
+        curTasks.RemoveAt(index);
         JsonModule.WriteFile(curTasks);
-        
-        return (int) ReturnCodes.OK;
     }
 
-    public static int UpdateTask(string[] data) {
-        if (data.Length < 3) {
-            return (int) ReturnCodes.ERR_NOT_ENOUGH_ARGS;
-        }
-        if (!data[0].All(char.IsDigit)) {
-            return (int) ReturnCodes.ERR_INVALID_INPUT + 1001;
-        }
-        if (data[1] != "description" && data[1] != "status") {
-            return (int) ReturnCodes.ERR_INVALID_INPUT + 1002;
-        }
-        if (data[1] == "status" && !Enum.IsDefined(typeof(Status), data[2])) {
-            return (int) ReturnCodes.ERR_INVALID_INPUT + 1003;
-        }
-        
+    public static void UpdateTask(string[] data) {
+        if (data.Length < 3)
+            throw new NotEnoughArgumentsException("update");
+        if (!data[0].All(char.IsDigit))
+            throw new InvalidTaskIdException();
+        if (data[1] != "description" && data[1] != "status")
+            throw new InvalidUpdateFieldException(data[1]);
+        if (data[1] == "status" && !Enum.IsDefined(typeof(Status), data[2]))
+            throw new InvalidStatusValueException(data[2]);
+    
         int updateId = Convert.ToInt32(data[0]);
         string updateField = data[1];
         string updateValue = data[2];
         List<TTTask> curTasks = JsonModule.ReadFile();
-        int[] curTasksIds = UtilityModule.GetTasksIds(curTasks);
-        bool found = false;
+        int index = curTasks.FindIndex(t => t.Id == updateId);
+        if (index == -1)
+            throw new TaskNotFoundException(updateId);
 
-        for (int i = 0; i < curTasksIds.Length; i++) {
-            if (curTasksIds[i] == updateId) {
-                curTasks[i].UpdateField(updateField, updateValue);
-                curTasks[i].UpdatedAt = DateTime.Now;
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
-            return (int) ReturnCodes.ERR_NOT_FOUND;
-        }
+        curTasks[index].UpdateField(updateField, updateValue);
+        curTasks[index].UpdatedAt = DateTime.Now;
         JsonModule.WriteFile(curTasks);
-        
-        return (int) ReturnCodes.OK;
     }
 }
