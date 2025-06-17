@@ -11,7 +11,7 @@ public class TTTask {
 
     public void UpdateField(string field, object value) {
         switch (field.ToLower()) {
-            case "Id":
+            case "id":
                 Id = Convert.ToInt32(value);
                 break;
             case "description":
