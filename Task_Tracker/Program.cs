@@ -35,6 +35,10 @@ internal static class Program {
                     Console.WriteLine("Updated task successfully.");
                     break;
                 
+                case "list":
+                    await commandService.ListTasks(arguments);
+                    break;
+                
                 default:
                     Console.WriteLine("Invalid command.");
                     return (int)ReturnCodes.ERR_INVALID_COMMAND;

@@ -62,4 +62,18 @@ public class CommandService(IDataStorage dataStorage, UtilityService utilityServ
         curTasks[index].UpdatedAt = DateTime.Now;
         await dataStorage.WriteFileAsync(curTasks);
     }
+
+    public async Task ListTasks(string[] data) {
+        List<TTTask> curTasks = await dataStorage.ReadFileAsync();
+        if (data.Length > 0) {
+            if (!Enum.IsDefined(typeof(Status), data[0])) 
+                throw new InvalidListOptionException(data[0]);
+            Status option = Enum.Parse<Status>(data[0]);
+            List<TTTask> tasksToShow = utilityService.SelectTasks(curTasks, option);
+            utilityService.ShowTasks(tasksToShow);
+        }
+        else {
+            utilityService.ShowTasks(curTasks);
+        }
+    }
 }

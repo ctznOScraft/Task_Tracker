@@ -20,3 +20,6 @@ public class InvalidUpdateFieldException(string field) : TaskTrackerException(
 
 public class InvalidStatusValueException(string status) : TaskTrackerException(
     $"Invalid status value: {status}. Use 'Todo', 'InProgress', or 'Done'.", ReturnCodes.ERR_INVALID_STATUS_VALUE);
+
+public class InvalidListOptionException(string option) : TaskTrackerException(
+    $"Invalid list option: {option}. Use 'Todo', 'InProgress', or 'Done'.'", ReturnCodes.ERR_INVALID_LIST_OPTION);
