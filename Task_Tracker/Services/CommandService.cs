@@ -14,7 +14,7 @@ public class CommandService(IDataStorage dataStorage, UtilityService utilityServ
         int newId = utilityService.GenerateTaskId(curTasks);
         var newTask = new TTTask {
             Id = newId, 
-            Description = data[0], 
+            Description = string.Join(" ", data), 
             Status = Status.Todo, 
             CreatedAt = DateTime.Now, 
             UpdatedAt = DateTime.Now
@@ -54,7 +54,7 @@ public class CommandService(IDataStorage dataStorage, UtilityService utilityServ
     
         int updateId = Convert.ToInt32(data[0]);
         string updateField = data[1];
-        string updateValue = data[2];
+        string updateValue = string.Join(" ", data[2..]);
         List<TTTask> curTasks = await dataStorage.ReadFileAsync();
         int index = curTasks.FindIndex(t => t.Id == updateId);
         if (index == -1)
