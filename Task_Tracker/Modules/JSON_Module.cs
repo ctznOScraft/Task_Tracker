@@ -13,9 +13,8 @@ public static class JsonModule {
     }
 
     public static List<TTTask> ReadFile() {
-        if (!File.Exists(FileName)) {
+        if (!File.Exists(FileName))
             return [];
-        }
         string jsonString = File.ReadAllText(FileName);
         return JsonSerializer.Deserialize<List<TTTask>>(jsonString)!;
     }

@@ -8,9 +8,8 @@ public static class UtilityModule {
     }
     
     public static int GenerateTaskId(List<TTTask> tasks) {
-        if (tasks.Count == 0) {
+        if (tasks.Count == 0)
             return 0;
-        }
         int[] taskIds = GetTasksIds(tasks);
         int maxId = taskIds.Max();
         return maxId + 1;
