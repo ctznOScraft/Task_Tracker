@@ -59,7 +59,7 @@ task-cli update <filter>
 filters (for now it's statuses): Todo/InProgress/Done  
 if you won't specify a filter, it lists all tasks  
 
-**5. "config" command**
+**5. "config" command**  
 *configures the app*
 ```bash
 task-cli config <option> <value>
