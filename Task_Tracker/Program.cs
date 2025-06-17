@@ -8,7 +8,7 @@ namespace Task_Tracker;
 internal static class Program {
     private static async Task<int> Main(string[] args) {
         if (args.Length < 1) {
-            Console.WriteLine("Usage: Task_Tracker [command] [arguments]");
+            Console.WriteLine("Usage: task-cli [command] [arguments]");
             return (int)ReturnCodes.ERR_NOT_ENOUGH_ARGS;
         }
 
