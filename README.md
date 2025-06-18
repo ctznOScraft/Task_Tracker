@@ -54,7 +54,7 @@ statuses: Todo/InProgress/Done
 **4. "list" command**  
 *lists all or filtered tasks*  
 ```bash
-task-cli update <filter>
+./task-cli update <filter>
 ```
 filters (for now it's statuses): Todo/InProgress/Done  
 if you won't specify a filter, it lists all tasks  
@@ -62,6 +62,6 @@ if you won't specify a filter, it lists all tasks
 **5. "config" command**  
 *configures the app*
 ```bash
-task-cli config <option> <value>
+./task-cli config <option> <value>
 ```
 options (for now): dbname - sets the name for the database file
