@@ -14,7 +14,6 @@ internal static class Program {
 
         var configService = new ConfigService();
         var dataStorage = new JsonStorage(configService.GetDbFileName());
-
         var utilityService = new UtilityService();
         var commandService = new CommandService(dataStorage, utilityService, configService);
         
